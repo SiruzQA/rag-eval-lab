@@ -19,12 +19,12 @@ jobs:
   rag-eval:
     name: RAG quality gate
     runs-on: ubuntu-latest
-    timeout-minutes: 90   # 3 ssenari ~9 dəq çəkdi; 18 ssenari ~55 dəq
+    timeout-minutes: 30   # 18 ssenari ~9 dəq çəkir
     env:
       FAITHFULNESS_MIN: "0.8"
       CONTEXT_PRECISION_MIN: "0.7"
       EVAL_SLEEP: "20"
-      EVAL_MAX_CASES: "3"   # ilk yoxlama üçün 3; hər şey işləyəndə "0" et (hamısı)
+      EVAL_MAX_CASES: "0"   # 0 = bütün 18 ssenari
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
