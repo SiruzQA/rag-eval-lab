@@ -19,7 +19,7 @@ jobs:
   rag-eval:
     name: RAG quality gate
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 90   # 3 ssenari ~9 dəq çəkdi; 18 ssenari ~55 dəq
     env:
       FAITHFULNESS_MIN: "0.8"
       CONTEXT_PRECISION_MIN: "0.7"
