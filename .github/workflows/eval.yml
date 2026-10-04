@@ -1,0 +1,63 @@
+name: LLM Evaluation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+
+jobs:
+  rag-eval:
+    name: RAG quality gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      FAITHFULNESS_MIN: "0.8"
+      CONTEXT_PRECISION_MIN: "0.7"
+      EVAL_SLEEP: "4"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Run DeepEval (Faithfulness + Context Precision)
+        run: pytest tests/ -v
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rag-eval-report
+          path: reports/results.json
+          if-no-files-found: ignore
+
+  security-eval:
+    name: Prompt injection gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: pip install -r requirements.txt
+      - name: Run Promptfoo (fails with exit code 100 on any failed test)
+        run: npx promptfoo@latest eval -c security/promptfooconfig.yaml --output reports/promptfoo.json
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: promptfoo-report
+          path: reports/promptfoo.json
+          if-no-files-found: ignore
