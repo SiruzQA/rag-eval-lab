@@ -4,6 +4,8 @@ A small RAG assistant with an **automated evaluation and security-testing pipeli
 
 The app itself is intentionally simple. The point of the project is the QA layer around it: a versioned golden dataset, LLM-output metrics with thresholds, adversarial tests, and a CI gate.
 
+[![LLM Evaluation](https://github.com/SiruzQA/rag-eval-lab/actions/workflows/eval.yml/badge.svg)](https://github.com/SiruzQA/rag-eval-lab/actions/workflows/eval.yml)
+
 ## What it does
 
 | Layer | Tooling | Purpose |
