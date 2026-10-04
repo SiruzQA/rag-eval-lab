@@ -7,7 +7,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmb
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 # API açarı: GOOGLE_API_KEY mühit dəyişənindən oxunur (repoya YAZMA)
-CHAT_MODEL = os.getenv("CHAT_MODEL", "gemini-2.5-flash")
+CHAT_MODEL = os.getenv("CHAT_MODEL", "gemini-3.8-flash")
 EMBED_MODEL = os.getenv("EMBED_MODEL", "models/gemini-embedding-001")
 DOCS_DIR = Path(__file__).parent / "docs"
 
