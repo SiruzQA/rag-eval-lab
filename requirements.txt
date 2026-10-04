@@ -1,0 +1,7 @@
+langchain-core
+langchain-text-splitters
+langchain-chroma
+langchain-google-genai
+chromadb
+deepeval
+pytest
