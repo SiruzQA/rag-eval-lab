@@ -6,7 +6,7 @@ import re
 from deepeval.models import DeepEvalBaseLLM
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-JUDGE_MODEL = os.getenv("JUDGE_MODEL", "gemini-2.5-flash")
+JUDGE_MODEL = os.getenv("JUDGE_MODEL", "gemini-3.8-flash")
 
 
 def _text(response) -> str:
