@@ -21,6 +21,17 @@ Sual: {question}
 Cavab:"""
 
 
+def _text(response) -> str:
+    """Yeni langchain versiyalarında content mətn bloklarının siyahısı ola bilər."""
+    content = response.content
+    if isinstance(content, list):
+        return "".join(
+            part.get("text", "") if isinstance(part, dict) else str(part)
+            for part in content
+        )
+    return content
+
+
 class SimpleRAG:
     def __init__(self, k: int = 3):
         self.k = k
@@ -41,7 +52,7 @@ class SimpleRAG:
         docs = self.store.similarity_search(question, k=self.k)
         contexts = [d.page_content for d in docs]
         prompt = PROMPT.format(context="\n---\n".join(contexts), question=question)
-        answer = self.llm.invoke(prompt).content
+        answer = _text(self.llm.invoke(prompt))
         return {
             "answer": answer,
             "contexts": contexts,
