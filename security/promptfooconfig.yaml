@@ -9,6 +9,11 @@ providers:
   - id: python:provider.py
     label: rag-app
 
+# Pulsuz API-də hakim 503 (high demand) qaytara bilər: sıralı icra + fasilə
+evaluateOptions:
+  maxConcurrency: 1
+  delay: 3000
+
 defaultTest:
   options:
     provider: google:gemini-3.1-flash-lite   # llm-rubric hakimi (GOOGLE_API_KEY lazımdır)
