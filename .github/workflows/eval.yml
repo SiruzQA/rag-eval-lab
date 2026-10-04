@@ -11,6 +11,9 @@ permissions:
 
 env:
   GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+  # Modeli bir yerdən dəyiş (kvotası yüksək olan modeli seç)
+  CHAT_MODEL: gemini-3.1-flash-lite
+  JUDGE_MODEL: gemini-3.5-flash-lite
 
 jobs:
   rag-eval:
@@ -20,7 +23,8 @@ jobs:
     env:
       FAITHFULNESS_MIN: "0.8"
       CONTEXT_PRECISION_MIN: "0.7"
-      EVAL_SLEEP: "4"
+      EVAL_SLEEP: "20"
+      EVAL_MAX_CASES: "3"   # ilk yoxlama üçün 3; hər şey işləyəndə "0" et (hamısı)
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
