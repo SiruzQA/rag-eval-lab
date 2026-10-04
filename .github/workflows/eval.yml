@@ -50,7 +50,7 @@ jobs:
           cache: pip
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
       - run: pip install -r requirements.txt
       - name: Run Promptfoo (fails with exit code 100 on any failed test)
         run: npx promptfoo@latest eval -c security/promptfooconfig.yaml --output reports/promptfoo.json
