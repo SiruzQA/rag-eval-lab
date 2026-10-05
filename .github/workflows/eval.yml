@@ -11,6 +11,11 @@ on:
 permissions:
   contents: read
 
+# Eyni PR-a yeni commit gələndə köhnə run ləğv olunsun (kvotanı qorumaq üçün)
+concurrency:
+  group: llm-eval-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
   # Modeli bir yerdən dəyiş (kvotası yüksək olan modeli seç)
