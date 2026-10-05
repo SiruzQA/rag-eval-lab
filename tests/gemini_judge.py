@@ -6,7 +6,7 @@ import re
 from deepeval.models import DeepEvalBaseLLM
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-JUDGE_MODEL = os.getenv("JUDGE_MODEL", "gemini-3.8-flash")
+JUDGE_MODEL = os.getenv("JUDGE_MODEL", "gemini-3.5-flash-lite")
 
 
 def _text(response) -> str:
@@ -34,7 +34,12 @@ class GeminiJudge(DeepEvalBaseLLM):
             return _text(self.model.invoke(prompt))
         try:
             return self.model.with_structured_output(schema).invoke(prompt)
-        except Exception:
+        except Exception as e:
+            # Kvota (429) və əlçatmazlıq (503) xətalarında təkrar sorğu göndərmə:
+            # bu, kvotanı iki dəfə xərcləyir. Yalnız format xətalarında yenidən cəhd et.
+            text = str(e)
+            if "429" in text or "RESOURCE_EXHAUSTED" in text or "503" in text or "UNAVAILABLE" in text:
+                raise
             raw = _text(self.model.invoke(prompt))
             return schema(**_load_json(raw))
 
